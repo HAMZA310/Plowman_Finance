@@ -50,9 +50,9 @@ def create_transactions_table_in_DB():
                 )
 create_transactions_table_in_DB()
 
-# Make sure API key is set
-if not os.environ.get("API_KEY"):
-    raise RuntimeError("API_KEY not set")
+# # Make sure API key is set
+# if not os.environ.get("API_KEY"):
+#     raise RuntimeError("API_KEY not set")
 
 @app.route("/")
 @login_required
