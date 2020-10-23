@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Index
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        {% for transaction in transactions %}
+            <!-- If all shares of a stock are sold (i.e. 0 shares available). No need to display it.-->
+            {% if transaction["SUM(n_shares)"] %}
+            <tr>
+                <td>{{ transaction["stock_symbol"] }}</td>
+                <td>{{ transaction["stock_name"] }}</td>
+                <td>{{ transaction["SUM(n_shares)"] }}</td>
+                <td>{{ transaction["price_per_share"] }}</td>
+                <td>{{ (transaction["SUM(n_shares)"] * transaction["price_per_share"])|e }}</td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+        <!-- For showing total in last row-->
+        <tr>
+            <td>CASH</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ (all_stocks_worth)|e }}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>$10,000.00</td>
+        </tr>
+    </table>
+{% endblock %}
