@@ -7,6 +7,16 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import apology, login_required, lookup, usd
 
+'''
+TO DO:
+
+Add ORMs.
+Delete Tables.
+Create database tables from scratch.
+Don't use CS50 library
+
+'''
+
 # for getting current time.
 from datetime import datetime
 
@@ -46,6 +56,18 @@ psql_heroku_URI = os.environ.get("DATABASE_URL")
 db = SQL(psql_heroku_URI)
 
 def create_transactions_table_in_DB():
+    db.execute("""
+                CREATE TABLE IF NOT EXISTS transactions (
+                user_id INTEGER NOT NULL,
+                stock_symbol TEXT NOT NULL,
+                stock_name TEXT NOT NULL,
+                n_shares INTEGER NOT NULL,
+                price_per_share NUMERIC NOT NULL,
+                transaction_time TEXT NOT NULL UNIQUE
+                )
+                """
+                )
+    db.execute("DROP TABLE")
     db.execute("""
                 CREATE TABLE IF NOT EXISTS transactions (
                 user_id INTEGER NOT NULL,
