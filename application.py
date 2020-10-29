@@ -33,8 +33,17 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///finance.db")
+
+# Make sure API key is set
+if not os.environ.get("DATABASE_URL"):
+    raise RuntimeError("DATABASE_URL not found on config file")
+    
+# Make sure API key is set
+if not os.environ.get("API_KEY"):
+    raise RuntimeError("API_KEY not found on config file")
+
+psql_heroku_URI = os.environ.get("DATABASE_URL")
+db = SQL(psql_heroku_URI)
 
 def create_transactions_table_in_DB():
     db.execute("""
@@ -50,9 +59,7 @@ def create_transactions_table_in_DB():
                 )
 create_transactions_table_in_DB()
 
-# # Make sure API key is set
-# if not os.environ.get("API_KEY"):
-#     raise RuntimeError("API_KEY not set")
+
 
 @app.route("/")
 @login_required
