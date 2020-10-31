@@ -38,7 +38,7 @@ app.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
@@ -158,6 +158,7 @@ def login():
     # Forget any user_id
     session.clear()
     # User reached route via POST (as by submitting a form via POST)
+
     if request.method == "POST":
         # Ensure username was submitted
         if not request.form.get("username"):
@@ -169,11 +170,11 @@ def login():
 
         # Query database for username
         this_user_data = User.query.filter_by(username=request.form.get("username")).one_or_none()
-
+      
         # Ensure username exists and password is correct
         if not this_user_data or not check_password_hash(this_user_data.hash, request.form.get("password")):
             return apology("invalid username and/or password", 403)
-
+  
         # Remember which user has logged in
         session["user_id"] = this_user_data.id
 
