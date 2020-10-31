@@ -17,13 +17,13 @@
         </thead>
         {% for transaction in transactions %}
             <!-- If all shares of a stock are sold (i.e. 0 shares available). No need to display it.-->
-            {% if transaction["SUM(n_shares)"] %}
+            {% if transaction["total_shares_for_this_symbol"] %}
             <tr>
                 <td>{{ transaction["stock_symbol"] }}</td>
                 <td>{{ transaction["stock_name"] }}</td>
-                <td>{{ transaction["SUM(n_shares)"] }}</td>
+                <td>{{ transaction["total_shares_for_this_symbol"] }}</td>
                 <td>{{ transaction["price_per_share"] }}</td>
-                <td>{{ (transaction["SUM(n_shares)"] * transaction["price_per_share"])|e }}</td>
+                <td>{{ (transaction["total_shares_for_this_symbol"] * transaction["price_per_share"])|e }}</td>
             </tr>
             {% endif %}
         {% endfor %}
