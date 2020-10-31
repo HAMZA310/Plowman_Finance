@@ -38,8 +38,10 @@ app.jinja_env.filters["usd"] = usd
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config['SECRET_KEY'] = 'e5ac358c-f0bf-11e5-9e39-d3b532c10a28'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
 Session(app)
 
 # Make sure API key is set
@@ -56,7 +58,6 @@ def index():
     forces you to put all three in group by clause or in an aggregate function (SUM etc).
     PSQL doesn't know that exactly one name is associated with one symbol, for example.
     """
-
     # Select by default will return list of dicts. Each dict is a transaction to be displayed.
     this_user_id = session['user_id']
     transactions = Transaction.query.with_entities(
