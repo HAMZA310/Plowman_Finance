@@ -204,9 +204,13 @@ def quote():
             return apology("Must provide symbol", 403)
         else:
             _quote = lookup(_symbol) # a dict with keys [name, price, symbol]
-            _name = _quote['name']
-            _price = usd(_quote['price']) # in proper usd format.
-            return render_template("quoted.html", name=_name, symbol=_symbol, price=_price)
+            
+            if _quote:
+                _name = _quote['name']
+                _price = usd(_quote['price']) # in proper usd format.
+                return render_template("quoted.html", name=_name, symbol=_symbol, price=_price)
+            else:
+                return render_template("quoted.html", name=None, symbol=_symbol, price=None)
     else:
         return render_template("quote.html")
 
